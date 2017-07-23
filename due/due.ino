@@ -78,8 +78,8 @@
 void manually_set_animation_params() {                    //
                                                           //
   BASE_ANIMATION = NONE;                                  //
-  MID_ANIMATION = SNAKE;                                   //
-  SPARKLE_ANIMATION = NONE;                               //
+  MID_ANIMATION = NONE;                                   //
+  SPARKLE_ANIMATION = TWO_CIRCLES;                               //
                                                           //
   BEAT_EFFECT = JERKY_MOTION;                                     //
                                                           //
@@ -559,6 +559,11 @@ void draw_current_sparkle() {
     case RAIN:
       sparkle_rain();
       break;
+
+    case TWO_CIRCLES:
+      Serial.println("Calling two_circles");
+      sparkle_two_circles();
+      break;
       
     default:
       clear_sparkle_layer();
@@ -603,6 +608,10 @@ void init_base_animation() {
         disable_layering = BASE_ANIMATION >= 128; // EDM animations start at 255 and move down.
         
       }
+      break;
+
+    case TEST:
+      test();
       break;
       
     default:
@@ -673,6 +682,24 @@ void init_sparkle_animation() {
       
     case RAIN:
       clear_sparkle_layer();
+      #if defined(CYCLE) || defined(CYCLE_RANDOM) || defined(CYCLE_PARAMS)
+        SPARKLE_COLOR_THICKNESS = random8();
+        SPARKLE_PORTION = random8();
+        show_parameters[SPARKLE_INTRA_RING_MOTION_INDEX] = random8(2) ? DOWN : UP;
+        SPARKLE_INTRA_RING_SPEED = random8();
+        SPARKLE_MAX_DIM = random8();
+        SPARKLE_RANGE = 20;
+        SPARKLE_SPAWN_FREQUENCY = 20;
+        #ifdef DEBUG
+          Serial.println("Rain params: " + String(SPARKLE_COLOR_THICKNESS) + ", " + String(SPARKLE_PORTION) + ", " + String(SPARKLE_INTRA_RING_MOTION) + ", " + String(SPARKLE_INTRA_RING_SPEED) + ", " + String(SPARKLE_MAX_DIM) + ", " + String(SPARKLE_RANGE) + ", " + String(SPARKLE_SPAWN_FREQUENCY));
+        #endif
+      #endif
+      break;
+
+    case TWO_CIRCLES:
+      current_ring = random8(72);
+      current_pixel = random16(408);
+      current_tri = random16(408);
       #if defined(CYCLE) || defined(CYCLE_RANDOM) || defined(CYCLE_PARAMS)
         SPARKLE_COLOR_THICKNESS = random8();
         SPARKLE_PORTION = random8();

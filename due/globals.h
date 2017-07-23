@@ -61,7 +61,8 @@ CRGB* initial_palette = fruit_loop;                                 //
 #define BASE_SCROLLING_DIM 1                                  //
 #define BASE_2COLOR_GRADIENT 2                                //
 #define SOUND_RESPONSIVE 3
-#define NUM_BASE_ANIMATIONS 3  // Equal to last animation     //
+#define TEST 4
+#define NUM_BASE_ANIMATIONS 4  // Equal to last animation     //
                                                               //
 // EDM animations (in the base layer, starting at 128)        //
 #define FREQ_PULSE 128                                        //
@@ -82,8 +83,9 @@ CRGB* initial_palette = fruit_loop;                                 //
                                                               //
 // Sparkle layer                                              //
 #define GLITTER 1                                             //
-#define RAIN 2                                                //
-#define NUM_SPARKLE_ANIMATIONS 2  // Equal to last animation  //
+#define RAIN 2  
+#define TWO_CIRCLES 3
+#define NUM_SPARKLE_ANIMATIONS 3  // Equal to last animation  //
                                                               //
 //------------------------------------------------------------//
 
@@ -289,5 +291,6 @@ uint8_t band_distribution[NUM_BANDS]; // bass=0, mid=1, treble=2; sums to 255 //
 
 // Diane's sparkle globals - if this gets to be too much I'll try to figure out a way to be more space efficient
 uint8_t current_ring;
-uint8_t current_pixel;
+int current_pixel;
+int current_tri;
 

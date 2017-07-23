@@ -90,12 +90,20 @@ void clear_sparkle_layer() {
 void set_sparkle(uint8_t ring, uint16_t pixel, uint8_t value) {
   uint8_t pixel_index = pixel >> 1;
   uint8_t curVal = sparkle_layer[ring][pixel_index];
+  /*Serial.println("In set_sparkle");
+  Serial.print("ring " );
+  Serial.println(ring);
+  Serial.print("pixel ");
+  Serial.println(pixel);
+  Serial.print("value ");
+  Serial.println(value);*/
   if(pixel & 0x01) {
     sparkle_layer[ring][pixel_index] = (curVal & 0xF0) | (value & 0x0F);
   }
   else {
     sparkle_layer[ring][pixel_index] = (curVal & 0x0F) | ((value<<4) & 0xF0);
   }
+  
 }
 
 uint8_t get_sparkle(uint8_t ring, uint16_t pixel) {
