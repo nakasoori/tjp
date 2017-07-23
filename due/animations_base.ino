@@ -73,3 +73,14 @@ void base_scrolling_2color_gradient() {
   }
 }
 
+void test(){
+  for(int ring = 0; ring < NUM_RINGS; ring++){
+    Serial.print("In test, setting ring = ");
+    Serial.println(ring);
+    for(int pixel = 0; pixel < LEDS_PER_RING; pixel++){
+      
+      base_layer[ring][pixel] = GRAY;
+    }
+  }
+}
+

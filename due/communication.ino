@@ -236,27 +236,9 @@ void process_commands(const int source, String& input) {
     switch (command) {
       #ifdef I_AM_MEGA
       case 'a':
-        size += 1;  // unsigned 8-bit integer
-        if (input.length() >= size) {
-            size += input[1];
-            if (input.length() >= size) {
-                // Tsunami.write(input.substring(2, size))
-            }
-            else {
-              #ifdef DEBUG
-                print_status("insufficient audio data");
-              #endif
-            }
-        }
-        else {
-          #ifdef DEBUG
-            print_status("insufficient audio data");
-          #endif
-        }
-        break;
-
+        handle_commands(command);
       case 'b':
-        size += 54;
+        size += AUDIO_PACKET_SIZE;
         if (input.length() >= size) {
           // pass the beat message through in both directions
           if (source == mate && remote.connected()) {
@@ -274,11 +256,9 @@ void process_commands(const int source, String& input) {
         break;
 
       case 'd':
-      {
         const uint8_t node_message[2] = { 'n', node_number };
         NodeMate.write(node_message, 2);
         break;
-      }
 
       case 'r':
         #ifdef DEBUG

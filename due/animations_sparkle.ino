@@ -153,7 +153,7 @@ void sparkle_warp_speed() {
     for (pixel = 0; pixel < LEDS_PER_RING; pixel++) { set_sparkle(NUM_RINGS - 1, pixel, temp[pixel]); }
   }
 
-}
+}*/
 
 
 //---------------------------------- SPARKLE 3 CIRCLES ---------------------------
@@ -166,33 +166,54 @@ void sparkle_warp_speed() {
 
 void sparkle_two_circles() {
 
-  uint8_t ring, pixel;
+  int ring, pixel;
   uint8_t inter_throttle, intra_throttle;
 
-  uint8_t vertical_color = get_sparkle_color(0, 4);
-  uint8_t horizontal_color = get_sparkle_color(1, 6);
+  uint8_t vertical_color = get_sparkle_color(0,4);
+  uint8_t horizontal_color = get_sparkle_color(1,6);
+  uint8_t diagonal_color = get_sparkle_color(0,2);
 
   clear_sparkle_layer();
-  
+  //current_ring = 1;
+  //current_pixel = 100;
+
+  //Serial.println("Inside two_circles");
   // vertical circle
+  //Serial.println("Before Vertical ring init");
   for (pixel = 0; pixel < LEDS_PER_RING; pixel++) {
-    set_sparkle(ring-1, pixel, vertical_color);
+    //Serial.println("Inside vertical for loop");
+    /*Serial.print("current_ring = ");
+    Serial.println(current_ring);
+    Serial.print("pixel = ");
+    Serial.println(pixel);*/
+    set_sparkle(current_ring, pixel, vertical_color);
+    //Serial.println("SET THE SPARKLE");
   }
+  //Serial.println("After Vertical ring init");
+  current_ring = (current_ring + 1) % NUM_RINGS;
 
   // horizontal circle
-  for (ring = 0; ring < 4; ring++) {
-    set_sparkle(ring-1, pixel, horizontal_color);
+  for (ring = 0; ring < NUM_RINGS; ring++) {
+    Serial.println("IN HORIZONTAL");
+    set_sparkle(ring, current_pixel, horizontal_color);
   }
-
+  current_pixel = (current_pixel+1) % LEDS_PER_RING;
+  
   // third circle has a slope of 3
   // work around rings simultaneously from both sides
-//  for (ring = 0; ring < 4 / 2; ring++) {
-//    for (pixel = 0; pixel < HALF_VISIBLE; pixel += 102) { // fixme: 3 for real structure
+  Serial.println("BEFORE THIRD CIRCLE");
+  for(ring = 0; ring < NUM_RINGS; ring++){
+    set_sparkle(ring,current_tri, diagonal_color); 
+    current_tri = (current_tri + 3) % LEDS_PER_RING;
+  }
+
+  /*for (ring = 0; ring < 4 / 2; ring++) {
+    for (pixel = 0; pixel < HALF_VISIBLE; pixel += 102) { // fixme: 3 for real structure
  
-//      sparkle[(ring + current_coin_bottom) % 72][pixel] = CRGB::Purple;
-//      sparkle[3 - (ring + current_coin_bottom) % 72][pixel] = CRGB::Purple;
-//    }
-//  }
+      sparkle[(ring + current_coin_bottom) % 72][pixel] = CRGB::Purple;
+      sparkle[3 - (ring + current_coin_bottom) % 72][pixel] = CRGB::Purple;
+   }
+  }*/
 
   // move each circle start over one unit according to intra and inter ring speed
   inter_throttle = SPARKLE_INTER_RING_SPEED % 30 + 20;
@@ -206,7 +227,7 @@ void sparkle_two_circles() {
 }
 
 
-
+/*
 //---------------------------------- SPARKLE TWINKLE ---------------------------
 //
 // Chooses random location for stars, with random starting intensities, 
