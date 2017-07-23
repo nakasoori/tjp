@@ -1,4 +1,6 @@
 ## The Journey Project ##
+My role is to work on debugging and creating sparkle animations.
+
 
 Programs currently available:
 
